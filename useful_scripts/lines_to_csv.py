@@ -12,10 +12,9 @@
 
 
 
-out_file = open('new.csv', 'w')
-with open('in.txt', 'r') as in_file:
-    for line in in_file:
-        line = line.strip()
-        out_file.write(line + ',')
-out_file.close()
+with open('new.csv', 'w') as out_file:
+    with open('in.txt', 'r') as in_file:
+        for line in in_file:
+            line = line.strip()
+            out_file.write(f'{line},')
 

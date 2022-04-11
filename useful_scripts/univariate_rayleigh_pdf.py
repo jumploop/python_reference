@@ -6,8 +6,7 @@ def comp_theta_mle(d):
     dataset for a Rayleigh distribution.
     
     """
-    theta = len(d) / sum([x**2  for x in d])
-    return theta    
+    return len(d) / sum(x**2 for x in d)    
 
 def likelihood_ray(x, theta):
     """

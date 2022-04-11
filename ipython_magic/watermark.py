@@ -66,7 +66,7 @@ class WaterMark(Magics):
     @argument('-n', '--datename', action='store_true', help='prints date with abbrv. day and month names')
     @argument('-t', '--time', action='store_true', help='prints current time')
     @argument('-z', '--timezone', action='store_true', help='appends the local time zone')
-    @argument('-u', '--updated', action='store_true', help='appends a string "Last updated: "')    
+    @argument('-u', '--updated', action='store_true', help='appends a string "Last updated: "')
     @argument('-c', '--custom_time', type=str, help='prints a valid strftime() string')
     @argument('-v', '--python', action='store_true', help='prints Python and IPython version')
     @argument('-p', '--packages', type=str, help='prints versions of specified Python modules and packages')
@@ -89,20 +89,20 @@ class WaterMark(Magics):
             self.out += strftime('%d/%m/%Y %H:%M:%S')
             self._get_pyversions()
             self._get_sysinfo()  
-            
+
         else:
             if args.author:
-                self.out += '% s ' %args.author.strip('\'"') 
+                self.out += '% s ' %args.author.strip('\'"')
             if args.updated:
                 self.out += 'Last updated: '
             if args.custom_time:
-                self.out += '%s ' %strfime(args.custom_time)
+                self.out += f'{strfime(args.custom_time)} '
             if args.date:
-                self.out += '%s ' %strftime('%d/%m/%Y')
+                self.out += f"{strftime('%d/%m/%Y')} "
             elif args.datename:
-                self.out += '%s ' %strftime('%a %b %M %Y')
+                self.out += f"{strftime('%a %b %M %Y')} "
             if args.time:
-                self.out += '%s ' %strftime('%H:%M:%S')
+                self.out += f"{strftime('%H:%M:%S')} "
             if args.timezone:
                 self.out += strftime('%Z')
             if args.python:
@@ -112,16 +112,14 @@ class WaterMark(Magics):
             if args.machine:
                 self._get_sysinfo()
             if args.hostname:
-                space = ''
-                if args.machine:
-                    space = '  '
+                space = '  ' if args.machine else ''
                 self.out += '\nhost name%s: %s' %(space, gethostname())
             if args.githash:
                 self._get_commit_hash(bool(args.machine))
-               
 
 
-                
+
+
         print(self.out)
 
   
@@ -162,9 +160,7 @@ class WaterMark(Magics):
     def _get_commit_hash(self, machine):
         process = subprocess.Popen(['git', 'rev-parse', 'HEAD'], shell=False, stdout=subprocess.PIPE)
         git_head_hash = process.communicate()[0].strip()
-        space = ''
-        if machine:
-            space = '   '
+        space = '   ' if machine else ''
         self.out += '\nGit hash%s: %s' %(space, git_head_hash.decode("utf-8")) 
 
 

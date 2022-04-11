@@ -3,10 +3,12 @@ import random
 
 def rand_string(length):
     """ Generates a random string of numbers, lower- and uppercase chars. """
-    return ''.join(random.choice(
-            string.ascii_lowercase + string.ascii_uppercase + string.digits)
-                   for i in range(length)
-            )
+    return ''.join(
+        random.choice(
+            string.ascii_lowercase + string.ascii_uppercase + string.digits
+        )
+        for _ in range(length)
+    )
 
 if __name__ == '__main__':
     print("Example1:", rand_string(length=4))

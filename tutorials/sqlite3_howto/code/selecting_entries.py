@@ -41,11 +41,10 @@ print('4):', ten_rows)
 # 5) Check if a certain ID exists and print its column contents
 c.execute("SELECT * FROM {tn} WHERE {idf}=?".\
         format(tn=table_name, cn=column_2, idf=id_column), (123456,))
-id_exists = c.fetchone()
-if id_exists:
-    print('5): {}'.format(id_exists))
+if id_exists := c.fetchone():
+    print(f'5): {id_exists}')
 else:
-    print('5): {} does not exist'.format(some_id))
+    print(f'5): {some_id} does not exist')
 
 # Closing the connection to the database file
 conn.close()

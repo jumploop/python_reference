@@ -52,23 +52,21 @@ def preprocess_names(name, output_sep=' ', firstname_output_letters=1):
     # set first and last name positions
     last, first = 'last', 'first'
     last_pos = -1
-    
+
     if ',' in name:
         last, first = first, last
         name = name.replace(',', ' ')
         last_pos = 1
-        
+
     spl = name.split()
     if len(spl) > 2:
-        name = '%s %s' % (spl[0], spl[last_pos])    
+        name = f'{spl[0]} {spl[last_pos]}'    
 
     # remove accents
     name = ''.join(x for x in unicodedata.normalize('NFKD', name) if x in string.ascii_letters+' ')
-    
-    # get first and last name if applicable
-    m = re.match('(?P<first>\w+)\W+(?P<last>\w+)', name)
-    if m:
-        output = '%s%s%s' % (m.group(last), output_sep, m.group(first)[:firstname_output_letters])
+
+    if m := re.match('(?P<first>\w+)\W+(?P<last>\w+)', name):
+        output = f'{m[last]}{output_sep}{m[first][:firstname_output_letters]}'
     else:
         output = name
     return output.lower().strip()

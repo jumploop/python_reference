@@ -16,11 +16,7 @@ def likelihood_poisson(x, lam):
     Poisson distribution
     
     """
-    if x // 1 != x:
-        likelihood = 0
-    else:
-        likelihood = math.e**(-lam) * lam**(x) / math.factorial(x)
-    return likelihood
+    return 0 if x // 1 != x else math.e**(-lam) * lam**(x) / math.factorial(x)
 
 
 if __name__ == "__main__":
@@ -37,8 +33,19 @@ if __name__ == "__main__":
     y_mle = [likelihood_poisson(x, mle_poiss) for x in x_range]
 
     plt.figure(figsize=(10,8))
-    plt.plot(x_range, y_true, lw=2, alpha=0.5, linestyle='--', label='true parameter ($\lambda={}$)'.format(true_param))
-    plt.plot(x_range, y_mle, lw=2, alpha=0.5, label='MLE ($\lambda={}$)'.format(mle_poiss))
+    plt.plot(
+        x_range,
+        y_true,
+        lw=2,
+        alpha=0.5,
+        linestyle='--',
+        label=f'true parameter ($\\lambda={true_param}$)',
+    )
+
+    plt.plot(
+        x_range, y_mle, lw=2, alpha=0.5, label=f'MLE ($\\lambda={mle_poiss}$)'
+    )
+
     plt.title('Poisson probability density function for the true and estimated parameters')
     plt.ylabel('p(x|theta)')
     plt.xlim([-1,5])

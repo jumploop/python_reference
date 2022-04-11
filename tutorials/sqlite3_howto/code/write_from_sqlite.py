@@ -17,7 +17,7 @@ def create_col_index(db_name, table_name, column_name, index_name):
     c = conn.cursor()
 
     # Creating the index
-    c.execute('CREATE INDEX {} ON {} ({})'.format(index_name, table_name, column_name))
+    c.execute(f'CREATE INDEX {index_name} ON {table_name} ({column_name})')
 
     # Save index and close the connection to the database
     conn.commit()
@@ -42,7 +42,7 @@ def drop_col_index(db_name, index_name):
     c = conn.cursor()
 
     # Drops the index
-    c.execute('DROP INDEX {}'.format(index_name))
+    c.execute(f'DROP INDEX {index_name}')
 
     # Save index and close the connection to the database
     conn.commit()
@@ -71,17 +71,13 @@ def write_from_query(db_name, table_name, condition, content_column, out_file, f
 
     # A) using .fetchmany(); recommended for larger databases
     if fetchmany:
-        c.execute('SELECT ({}) FROM {} WHERE {}'.format(content_column, table_name, condition))
+        c.execute(f'SELECT ({content_column}) FROM {table_name} WHERE {condition}')
         with open(out_file, 'w') as outf:
-            results = c.fetchmany(fetchmany)
-            while results:
+            while results := c.fetchmany(fetchmany):
                 for row in results:
                     outf.write(row[0])
-                results = c.fetchmany(fetchmany)
-
-    # B) simple .execute() loop
     else:
-        c.execute('SELECT ({}) FROM {} WHERE {}'.format(content_column, table_name, condition))
+        c.execute(f'SELECT ({content_column}) FROM {table_name} WHERE {condition}')
         with open(out_file, 'w') as outf:
             for row in c:
                 outf.write(row[0])

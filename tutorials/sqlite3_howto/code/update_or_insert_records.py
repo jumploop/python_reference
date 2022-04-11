@@ -15,12 +15,12 @@ conn = sqlite3.connect(sqlite_file)
 c = conn.cursor()
 
 
-# A) Inserts an ID with a specific value in a second column 
+# A) Inserts an ID with a specific value in a second column
 try:
     c.execute("INSERT INTO {tn} ({idf}, {cn}) VALUES (123456, 'test')".\
         format(tn=table_name, idf=id_column, cn=column_name))
 except sqlite3.IntegrityError:
-    print('ERROR: ID already exists in PRIMARY KEY column {}'.format(id_column))
+    print(f'ERROR: ID already exists in PRIMARY KEY column {id_column}')
 
 # B) Tries to insert an ID (if it does not exist yet)
 # with a specific value in a second column 
